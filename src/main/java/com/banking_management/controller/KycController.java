@@ -23,7 +23,6 @@ public class KycController {
     private final KycService kycService;
 
     /**
-     * FR-04: Nộp hồ sơ eKYC
      * POST /api/v1/kyc/upload
      */
     @PostMapping("/api/v1/kyc/upload")
@@ -36,7 +35,6 @@ public class KycController {
     }
 
     /**
-     * FR-04: Xem KYC của mình
      * GET /api/v1/customer/kyc/me
      */
     @GetMapping("/api/v1/customer/kyc/me")
@@ -48,7 +46,6 @@ public class KycController {
     }
 
     /**
-     * FR-09: Duyệt KYC - STAFF/ADMIN
      * PUT /api/v1/staff/kyc/{id}/review?decision=CONFIRM
      */
     @PutMapping("/api/v1/staff/kyc/{id}/review")
@@ -61,7 +58,6 @@ public class KycController {
     }
 
     /**
-     * FR-09: Danh sách KYC đang PENDING - STAFF/ADMIN
      * GET /api/v1/staff/kyc/pending
      */
     @GetMapping("/api/v1/staff/kyc/pending")

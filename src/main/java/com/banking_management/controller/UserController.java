@@ -27,7 +27,6 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * UC-02: Lấy danh sách user (Admin/Staff) - phân trang
      * GET /api/v1/users?page=0&size=10&sort=createdAt,desc
      */
     @GetMapping
