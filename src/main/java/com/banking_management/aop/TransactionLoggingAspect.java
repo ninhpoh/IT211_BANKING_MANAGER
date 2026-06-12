@@ -29,7 +29,6 @@ public class TransactionLoggingAspect {
 
     /**
      * UC-04: Ghi log kiểm toán SAU KHI chuyển tiền thành công.
-     * @AfterReturning - tách biệt hoàn toàn khỏi logic chuyển tiền chính.
      */
     @AfterReturning(
             pointcut = "execution(* com.banking_management.service.impl.TransactionServiceImpl.transfer(..))",
@@ -47,7 +46,6 @@ public class TransactionLoggingAspect {
 
     /**
      * UC-04: Ghi log khi chuyển tiền thất bại.
-     * @AfterThrowing - bắt exception và ghi log lỗi.
      */
     @AfterThrowing(
             pointcut = "execution(* com.banking_management.service.impl.TransactionServiceImpl.transfer(..))",
