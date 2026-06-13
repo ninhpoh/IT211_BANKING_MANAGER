@@ -21,4 +21,6 @@ public class RegisterRequest {
     @NotBlank(message = "Email is required")
     @Email(message = "Email invalid format")
     private String email;
+
+    private String role;
 }

@@ -20,9 +20,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -120,8 +122,20 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("Email already registered");
         }
 
-        Role customerRole = roleRepository.findByName("CUSTOMER")
-                .orElseThrow(() -> new ResourceNotFoundException("Role CUSTOMER not found"));
+        String roleName = "CUSTOMER";
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (isAdmin && "STAFF".equalsIgnoreCase(request.getRole())) {
+            roleName = "STAFF";
+        }
+
+        final String finalRoleName = roleName;
+
+        Role assignedRole = roleRepository.findByName(finalRoleName)
+                .orElseThrow(() -> new ResourceNotFoundException("Role " + finalRoleName + " not found"));
 
         User user = User.builder()
                 .username(request.getUsername())
@@ -130,7 +144,7 @@ public class AuthServiceImpl implements AuthService {
                 .phoneNumber(request.getPhoneNumber())
                 .isActive(true)
                 .isKyc(false)
-                .role(customerRole)
+                .role(assignedRole)
                 .build();
 
         userRepository.save(user);
